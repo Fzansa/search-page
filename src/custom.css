@@ -1,0 +1,52 @@
+/* Your custom CSS */
+::-webkit-scrollbar {
+    width:4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #5097A7;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Firefox */
+  ::-moz-scrollbar {
+    width: 4px;
+  }
+  
+  ::-moz-scrollbar-thumb {
+    background-color: #5097A7;
+    border-radius: 10px;
+  }
+  
+  ::-moz-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Internet Explorer and Edge */
+  ::-ms-scrollbar {
+    width:4px;
+  }
+  
+  ::-ms-scrollbar-thumb {
+    background-color: #5097A7;
+    border-radius: 10px;
+  }
+  
+  ::-ms-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+
+/* Hide the default calendar icon in the date input */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* Add custom placeholder styling */
+input[type="date"]::placeholder {
+  color: #6b7280; /* Tailwind gray-500 */
+  opacity: 1; /* Make sure the placeholder is visible */
+}

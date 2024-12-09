@@ -51,7 +51,7 @@ const Results = ({ results, loading, onDateChange, handleSortChange }) => {
               <p>Articles not found</p>
             ) : (
               results?.articles?.map((item) => {
-                if (item?.urlToImage) {
+                if (item?.image) {
                   return (
                     <article
                       className="flex flex-col bg-white border rounded-lg overflow-hidden shadow-sm border-lprimary"
@@ -65,7 +65,7 @@ const Results = ({ results, loading, onDateChange, handleSortChange }) => {
                         <img
                           alt={item?.title || "Article Image"}
                           className="object-cover w-full h-52 bg-gray-500"
-                          src={item?.urlToImage}
+                          src={item?.image}
                         />
                       </a>
                       <div className="flex flex-col flex-1 p-6">

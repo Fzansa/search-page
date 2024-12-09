@@ -6,7 +6,6 @@ import Header from "./components/Header";
 const App = () => {
   const [results, setResults] = useState({});
   const [sources, setSources] = useState([]);
-  const [errorMsg, setErrorMsg] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [dateRange, setDateRange] = useState({
     startDate: '',
@@ -20,36 +19,48 @@ const App = () => {
   const fetchArticles = async (query) => {
     setLoading(true);
     try {
-      const countryFilter = selectedSource?.name === "All Countries" ? "" : `&language=${selectedSource?.code}`;
-      let dateFilter = '';
+      // Add country filter (optional)
+      const countryFilter =
+        selectedSource?.name === "All Countries"
+          ? ""
+          : `&lang=${selectedSource?.code.toLowerCase()}`;  // GNews uses 'country' parameter
+      
+      // Add date range filter (optional)
+      let dateFilter = "";
       if (dateRange.startDate && dateRange.endDate) {
         dateFilter = `&from=${dateRange.startDate}&to=${dateRange.endDate}`;
       }
-      const sortFilter = `&sortBy=${sortBy}`;
-
-      const url = `https://newsapi.org/v2/everything?q=${searchQuery}${countryFilter}${dateFilter}${sortFilter}&apiKey=${process.env.REACT_APP_API_KEY}`;
-
-      // const url = `https://newsapi.org/v2/everything?q=${searchQuery}${countryFilter}${dateFilter}&apiKey=${process.env.REACT_APP_API_KEY}`;
-
-
-
-
-      const response = await fetch(url);
+  
+      // Add sorting filter (optional)
+      const sortFilter = sortBy ? `&sortBy=${sortBy}` : "";
+  
+      // GNews API URL structure
+      const url = `https://gnews.io/api/v4/search?q=${query}${countryFilter}${dateFilter}${sortFilter}&token=${process.env.REACT_APP_GNEWS_API_KEY}`;
+  
+      // Explicitly specify the GET method
+      const response = await fetch(url, { method: 'GET' });
+  
+      // Parse the response as JSON
       const data = await response.json();
-      if (data?.articles && data?.articles?.length > 0) {
-        setResults({ type: 'success', articles: data?.articles });
-      } else if (data?.code === 'rateLimited') {
-        setResults({ type: 'error', msg: data?.message })
+      // Check if the response was successful
+      if (response.ok && data.articles && data.articles.length > 0) {
+        setResults({ type: "success", articles: data.articles });
+      } else if (data.error) {
+        setResults({ type: "error", msg: data.error });
       } else {
         console.log("No articles found.");
-        setResults([]); // Clear results if no articles
+        setResults({ type: "error", msg: "No articles found." });
       }
     } catch (error) {
       console.error("Error fetching articles:", error);
+      setResults({ type: "error", msg: "An error occurred. Please try again." });
     } finally {
       setLoading(false);
     }
   };
+  
+
+
 
 
 

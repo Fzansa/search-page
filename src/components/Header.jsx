@@ -80,7 +80,7 @@ const Header = ({ onSearch, sources,onSourceChange }) => {
               {isDropdownOpen && (
                 <div
                   id="dropdown"
-                  className="z-10 absolute top-12 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 max-h-[300px] overflow-y-scroll"
+                  className="z-[1212121] absolute top-12 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 max-h-[300px] overflow-y-scroll"
                 >
                   <ul className="py-2 text-sm text-gray-700">
                     <li>

@@ -18,11 +18,17 @@ const DateRangePicker = ({ onDateChange }) => {
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
 
+  // Convert date to ISO format with UTC time
+  const toISOStringWithZ = (date) => {
+    const utcDate = new Date(date);
+    return utcDate.toISOString(); // Ensures `YYYY-MM-DDTHH:MM:SSZ`
+  };
+
   // Handle start date change
   const handleStartDateChange = (e) => {
     const newStartDate = e.target.value;
     if (newStartDate !== startDate) {
-      setStartDate(newStartDate);
+      setStartDate(toISOStringWithZ(newStartDate)); // Convert to ISO
     }
   };
 
@@ -30,19 +36,19 @@ const DateRangePicker = ({ onDateChange }) => {
   const handleEndDateChange = (e) => {
     const newEndDate = e.target.value;
     if (newEndDate !== endDate) {
-      setEndDate(newEndDate);
+      setEndDate(toISOStringWithZ(newEndDate)); // Convert to ISO
     }
   };
 
   // Trigger onDateChange only when both dates are set
   useEffect(() => {
     if (startDate && endDate) {
-      onDateChange({ startDate, endDate });
+      onDateChange({ startDate, endDate }); // Pass in ISO format
     }
   }, [startDate, endDate]);
 
   return (
-    <div id="date-range-picker" className="flex items-center">
+    <div id="date-range-picker" className="flex items-center " style={{position:"relative",zIndex:'-1'}}>
       {/* Start Date */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -60,7 +66,7 @@ const DateRangePicker = ({ onDateChange }) => {
           id="datepicker-range-start"
           name="start"
           type="date"
-          value={startDate}
+          value={startDate.split("T")[0]} // Display only the date part
           onChange={handleStartDateChange}
           onClick={handleFocusStart}
           ref={startDateRef}
@@ -89,7 +95,7 @@ const DateRangePicker = ({ onDateChange }) => {
           id="datepicker-range-end"
           name="end"
           type="date"
-          value={endDate}
+          value={endDate.split("T")[0]} // Display only the date part
           onChange={handleEndDateChange}
           onClick={handleFocusEnd}
           ref={endDateRef}
